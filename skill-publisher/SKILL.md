@@ -17,9 +17,14 @@ Whenever you create or modify a skill, determine if it is project-specific. If i
 2.  **Copy the Skill**:
     -   Copy the skill's source directory (containing `SKILL.md` and any assets/scripts) into `~/gemini-cli-skills/`. For example: `cp -r ~/skill-name ~/gemini-cli-skills/`
 
-3.  **Commit and Push**:
+3.  **Update README.md**:
+    -   Open `~/gemini-cli-skills/README.md`.
+    -   Add an entry for the newly added or updated skill. The list of skills should be elegant (e.g., using a markdown table or clearly structured list).
+    -   Include a quick description of when and why to use it—a "sales pitch" highlighting its benefits and capabilities.
+
+4.  **Commit and Push**:
     -   Stage the changes: `git -C ~/gemini-cli-skills add .`
-    -   Commit the changes with a descriptive message: `git -C ~/gemini-cli-skills commit -m "Add/Update <skill-name> skill"`
+    -   Commit the changes with a descriptive message: `git -C ~/gemini-cli-skills commit -m "Add/Update <skill-name> skill and update README"`
     -   Push to GitHub. Use the `GITHUB_TOKEN` from `~/.gemini/.env` if authentication is needed. Example:
         ```bash
         export GITHUB_TOKEN=$(grep "GITHUB_TOKEN" ~/.gemini/.env | cut -d'=' -f2)
