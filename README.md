@@ -5,9 +5,9 @@ A collection of useful general-purpose skills for the Gemini CLI to enhance your
 ## Installation
 
 ### Install the entire suite
-To install all skills in this repository as an extension:
+To install all skills in one swoop:
 ```bash
-gemini extensions install https://github.com/j-steve/gemini-cli-skills.git
+git clone https://github.com/j-steve/gemini-cli-skills.git ~/.gemini/skillz && gemini skills link ~/.gemini/skillz
 ```
 
 ### Install specific skills
