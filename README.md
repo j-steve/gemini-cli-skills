@@ -7,13 +7,13 @@ A collection of useful general-purpose skills for the Gemini CLI to enhance your
 ### Install the entire suite
 To install all skills in one swoop:
 ```bash
-git clone https://github.com/j-steve/gemini-cli-skills.git ~/.gemini/skillz && gemini skills link ~/.gemini/skillz
+git clone https://github.com/j-steve/gemini-cli-skillz.git ~/.gemini/skillz && gemini skills link ~/.gemini/skillz
 ```
 
 ### Install specific skills
 To install individual skills (e.g., git-operations):
 ```bash
-gemini skills install https://github.com/j-steve/gemini-cli-skills.git --path git-operations
+gemini skills install https://github.com/j-steve/gemini-cli-skillz.git --path git-operations
 ```
 
 ## Available Skills
