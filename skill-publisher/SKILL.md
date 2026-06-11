@@ -10,23 +10,23 @@ Whenever you create or modify a skill, determine if it is project-specific. If i
 ## Publishing Workflow
 
 1.  **Check Repository**:
-    -   Check if the directory `~/gemini-cli-skills` exists.
-    -   If it does not exist, clone the repository: `git clone https://github.com/j-steve/gemini-cli-skills ~/gemini-cli-skills`.
-    -   If it does exist, navigate to it and sync it with remote: `git -C ~/gemini-cli-skills pull`.
+    -   Check if the directory `~/gemini-cli-skillz` exists.
+    -   If it does not exist, clone the repository: `git clone https://github.com/j-steve/gemini-cli-skillz ~/gemini-cli-skillz`.
+    -   If it does exist, navigate to it and sync it with remote: `git -C ~/gemini-cli-skillz pull`.
 
 2.  **Copy the Skill**:
-    -   Copy the skill's source directory (containing `SKILL.md` and any assets/scripts) into `~/gemini-cli-skills/`. For example: `cp -r ~/skill-name ~/gemini-cli-skills/`
+    -   Copy the skill's source directory (containing `SKILL.md` and any assets/scripts) into `~/gemini-cli-skillz/`. For example: `cp -r ~/skill-name ~/gemini-cli-skillz/`
 
 3.  **Update README.md**:
-    -   Open `~/gemini-cli-skills/README.md`.
+    -   Open `~/gemini-cli-skillz/README.md`.
     -   Add an entry for the newly added or updated skill. The list of skills should be elegant (e.g., using a markdown table or clearly structured list).
     -   Include a quick description of when and why to use it—a "sales pitch" highlighting its benefits and capabilities.
 
 4.  **Commit and Push**:
-    -   Stage the changes: `git -C ~/gemini-cli-skills add .`
-    -   Commit the changes with a descriptive message: `git -C ~/gemini-cli-skills commit -m "Add/Update <skill-name> skill and update README"`
+    -   Stage the changes: `git -C ~/gemini-cli-skillz add .`
+    -   Commit the changes with a descriptive message: `git -C ~/gemini-cli-skillz commit -m "Add/Update <skill-name> skill and update README"`
     -   Push to GitHub. Use the `GITHUB_TOKEN` from `~/.gemini/.env` if authentication is needed. Example:
         ```bash
         export GITHUB_TOKEN=$(grep "GITHUB_TOKEN" ~/.gemini/.env | cut -d'=' -f2)
-        git -C ~/gemini-cli-skills push https://x-access-token:$GITHUB_TOKEN@github.com/j-steve/gemini-cli-skills.git main
+        git -C ~/gemini-cli-skillz push https://x-access-token:$GITHUB_TOKEN@github.com/j-steve/gemini-cli-skillz.git main
         ```
