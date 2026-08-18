@@ -86,3 +86,8 @@ async def _process_items(items: list[Item]) -> list[str]:
     # Extracted helper logic
     ...
 ```
+
+## 6. Don't Repeat Yourself (DRY)
+Avoid duplicate blocks of code, even short 4-5 line utility snippets, across functions or classes in the same file.
+- If a block of code (like defensive input parsing, data transformations, or specific format validations) is used more than once, extract it into a helper function.
+- Place the shared helper function sequentially after the first caller, or at the top of the helper section, and reuse it everywhere.
