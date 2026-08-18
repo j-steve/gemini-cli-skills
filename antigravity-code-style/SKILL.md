@@ -54,3 +54,35 @@ When an exception occurs, you must EITHER log it OR throw/propagate it. Never do
 Constants must be defined in `ALL_CAPS`.
 - Place them outside of methods, either at the class level or the file level (global).
 - By default, constants should be private (e.g., prefixing them with an underscore in Python, like `_MAX_RETRIES` or `_DEFAULT_TIMEOUT`), unless there is an explicit need for them to be public.
+
+## 5. Keep Methods Small and Modular (Extract Sub-blocks)
+Methods should remain focused, small, and highly readable. Do not inline long, nested blocks (such as complex API download loops, file parsers, or multi-step operations) into existing handlers or endpoints.
+- Extract nested or complex sub-blocks into well-named private helper functions or classes.
+- Place the extracted helpers immediately after the calling function (following the "Caller Before Callee" sequential rule).
+- This keeps the cyclomatic complexity of main methods low and facilitates easier unit testing.
+
+**Bad:**
+```python
+@router.post("/process")
+async def process_handler(data: RequestData):
+    # Main logic...
+    if data.items:
+        # Long, nested block of 30 lines performing complex calculations, 
+        # API calls, and GCS uploads
+        for item in data.items:
+            ...
+    return {"status": "ok"}
+```
+
+**Good:**
+```python
+@router.post("/process")
+async def process_handler(data: RequestData):
+    # Main logic...
+    processed_paths = await _process_items(data.items)
+    return {"status": "ok"}
+
+async def _process_items(items: list[Item]) -> list[str]:
+    # Extracted helper logic
+    ...
+```

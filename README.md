@@ -22,6 +22,7 @@ Here is the current catalog of skillz available in this repository:
 
 | Skill Name | What it does | Why you should use it (The Pitch) |
 | :--- | :--- | :--- |
+| **`antigravity-code-style`** | Enforces clean Python coding patterns (e.g. Caller Before Callee ordering, modular helpers, and error handling). | **Keep your codebase elegant and maintainable!** Guides the agent to write clean, modular, properly ordered code with minimal complexity. |
 | **`github-issue-creator`** | Guides the agent to create well-formatted GitHub issues with appropriate markdown and default labels (like `bug`). | **Tired of messy, unstructured bug reports?** Let this skill do the heavy lifting. It ensures every issue is readable, actionable, and properly categorized right out of the gate! |
 | **`skill-publisher`** | Instructs the agent to automatically publish generally applicable, non-project-specific skillz to this central repository and updates this README. | **Keep your agent's knowledge base centralized and up-to-date!** No more manually copying skillz around. Just build, let the agent push it here, and instantly share it across your workspaces. |
 | **`git-operations`** | Streamlines your git and GitHub workflow with automated syncing, PR submission, and CI monitoring. | **Keep your workspace fast!** Enforces CI testing post-PR and handles repetitive git tasks, keeping your commit history clean and your code stable. |
