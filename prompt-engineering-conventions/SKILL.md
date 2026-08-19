@@ -1,6 +1,6 @@
 ---
 name: prompt-engineering-conventions
-description: Guidelines for subtly adjusting and writing LLM prompts, avoiding overcorrection, extreme all-caps constraints, and hyper-specificity. Use whenever modifying prompt templates under src/prompts/templates/, adjusting LLM instructions, or writing new prompts.
+description: Guidelines for prompt engineering and LLM system prompt design. MUST be activated whenever proposing, recommending, analyzing, reviewing, drafting, or modifying LLM prompts, prompt templates, system instructions, or agent behavioral fixes.
 ---
 
 # LLM Prompt Engineering & Adjustment Guidelines
