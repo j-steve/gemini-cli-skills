@@ -19,6 +19,9 @@ return {item["id"]: item for item in raw_states}
 
 original_runbook = state.get("runbook", {})
 clean_runbook = original_runbook.copy()
+
+raw_messages = state.get("messages", [])
+sanitized = _sanitize_messages(raw_messages)
 ```
 
 **Good:**
@@ -26,6 +29,8 @@ clean_runbook = original_runbook.copy()
 return {item["id"]: item for item in response.json()}
 
 clean_runbook = state.get("runbook", {}).copy()
+
+sanitized = _sanitize_messages(state.get("messages", []))
 ```
 
 
