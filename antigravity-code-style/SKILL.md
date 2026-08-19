@@ -117,3 +117,10 @@ Never add legacy fallbacks, optional schema fields for missing data, dummy defau
 - **Fix the Data, Not the Code**: Keep application schemas, models, and type constraints strict and clean. If existing records in database/storage are missing required fields or violate schema constraints, update/migrate the legacy database records directly.
 - Do not dilute schema validation or add defensive compatibility code to mask corrupt or incomplete database records.
 
+## 9. Skip Test Execution for Trivial Edits
+Do NOT run tests (pytest, pyright, bazel) when making trivial code edits, such as:
+- Eliminating intermediary variables or simple inline refactoring.
+- Docstring, comment, or formatting updates.
+- Import cleanup or minor text changes.
+For trivial changes, push/amend the commit and update the PR immediately without wasting time running local test suites.
+
