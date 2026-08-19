@@ -43,6 +43,11 @@ Classes, functions, and methods in a file should be ordered sequentially from to
   1. `method1`
   2. `method2`
   3. `method3`
+- If a helper method/function is called by multiple other methods (e.g., Method A and Method C both call Method B), define all caller methods first, and define the shared helper method afterwards.
+  - E.g., if Method A and Method C call Method B, define them in the order:
+    1. Method A (caller)
+    2. Method C (caller)
+    3. Method B (callee helper)
 
 ## 3. Handle Exceptions Cleanly (Never Log and Throw)
 When an exception occurs, you must EITHER log it OR throw/propagate it. Never do both.
@@ -91,3 +96,8 @@ async def _process_items(items: list[Item]) -> list[str]:
 Avoid duplicate blocks of code, even short 4-5 line utility snippets, across functions or classes in the same file.
 - If a block of code (like defensive input parsing, data transformations, or specific format validations) is used more than once, extract it into a helper function.
 - Place the shared helper function sequentially after the first caller, or at the top of the helper section, and reuse it everywhere.
+
+## 7. Google Application Default Credentials (ADC) Scopes
+When fetching Google Application Default Credentials (ADC) for signing GCS URLs or making other IAM-based credential operations, always explicitly pass the `https://www.googleapis.com/auth/cloud-platform` scope.
+- Define this scope as a private file-level constant (in `ALL_CAPS` with a leading underscore, like `_CLOUD_PLATFORM_SCOPE = "https://www.googleapis.com/auth/cloud-platform"`).
+- This ensures the generated access token contains the necessary OAuth scopes to successfully authenticate IAM signBytes API requests.
