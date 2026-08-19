@@ -101,3 +101,4 @@ Avoid duplicate blocks of code, even short 4-5 line utility snippets, across fun
 When fetching Google Application Default Credentials (ADC) for signing GCS URLs or making other IAM-based credential operations, always explicitly pass the `https://www.googleapis.com/auth/cloud-platform` scope.
 - Define this scope as a private file-level constant (in `ALL_CAPS` with a leading underscore, like `_CLOUD_PLATFORM_SCOPE = "https://www.googleapis.com/auth/cloud-platform"`).
 - This ensures the generated access token contains the necessary OAuth scopes to successfully authenticate IAM signBytes API requests.
+- Do not attempt to introspect the credentials object dynamically (using `getattr` or `cast`) to extract the service account email or to check for placeholders like `"default"`. Instead, retrieve the service account email directly from configuration settings (like `settings.SERVICE_ACCOUNT_EMAIL`).
