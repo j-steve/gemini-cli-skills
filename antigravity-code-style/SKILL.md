@@ -102,3 +102,9 @@ When fetching Google Application Default Credentials (ADC) for signing GCS URLs 
 - Define this scope as a private file-level constant (in `ALL_CAPS` with a leading underscore, like `_CLOUD_PLATFORM_SCOPE = "https://www.googleapis.com/auth/cloud-platform"`).
 - This ensures the generated access token contains the necessary OAuth scopes to successfully authenticate IAM signBytes API requests.
 - Do not attempt to introspect the credentials object dynamically (using `getattr` or `cast`) to extract the service account email or to check for placeholders like `"default"`. Instead, retrieve the service account email directly from configuration settings (like `settings.SERVICE_ACCOUNT_EMAIL`).
+
+## 8. No Legacy Code Fallbacks or Schema Degradation
+Never add legacy fallbacks, optional schema fields for missing data, dummy defaults, or silent try/except wrappers in application code to accommodate invalid legacy database records.
+- **Fix the Data, Not the Code**: Keep application schemas, models, and type constraints strict and clean. If existing records in database/storage are missing required fields or violate schema constraints, update/migrate the legacy database records directly.
+- Do not dilute schema validation or add defensive compatibility code to mask corrupt or incomplete database records.
+
