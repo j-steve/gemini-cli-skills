@@ -49,6 +49,10 @@ Classes, functions, and methods in a file should be ordered sequentially from to
     2. Method C (caller)
     3. Method B (callee helper)
 
+> [!CRITICAL]
+> **Caller-Before-Callee Audit Step**:
+> Before completing any file edit or refactoring, ALWAYS inspect line numbers of functions in the modified file. Verify that any helper function (e.g., `_parse_timestamp`, `_helper_fn`) is placed strictly **BELOW** its caller function (`get_...`, `fetch_...`). Never leave a helper function defined above its caller.
+
 ## 3. Handle Exceptions Cleanly (Never Log and Throw)
 When an exception occurs, you must EITHER log it OR throw/propagate it. Never do both.
 - Logging and throwing creates duplicate, noisy log trails for a single error.
