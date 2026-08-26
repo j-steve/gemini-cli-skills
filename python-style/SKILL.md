@@ -104,42 +104,46 @@ Organize module contents so that files read logically from top to bottom:
 - Decompose multi-step workflows into focused, private helper functions placed immediately below the caller.
 - Do not artificially fragment coherent, readable algorithms solely to satisfy line limits; balance modularity with readability.
 
-### Data Encapsulation & Callee Self-Sufficiency
-- Prefer having helper and child functions derive or fetch their own internal dependencies directly from the primary configuration or context object (e.g., `cfg`), rather than having caller functions orchestrate intermediate data fetches solely to pass them down as discrete arguments.
-- Pushing data retrieval down into the callee keeps caller orchestration concise and decoupled, and narrows function signatures to only essential domain parameters unless explicit separation of concerns or testability dictates otherwise.
+### Explicit Parameter Passing & Call-Site Extraction
+- Child and helper functions should accept only the specific domain parameters, primitives, or narrow objects they need to operate—do not pass monolithic configuration or global context objects (e.g., `cfg`, `context`) down into leaf helpers.
+- Extract nested attributes or execute retrieval methods directly inline at the call site without creating single-use temporary variables.
 
-**Anti-pattern:**
+**Anti-pattern 1 (Monolithic Passthrough):**
+Parent calls `_fetch_data(cfg)` and `_fetch_data` reaches into `cfg.auth.get_token()`.
 ```python
-def sync_dataset(dataset_id: str, cfg: PipelineConfig) -> SyncSummary:
-    # Caller unnecessarily extracts and derives parameters solely consumed by the child helper
-    endpoint_url = f"{cfg.base_url}/datasets/{dataset_id}/sync"
-    auth_headers = {"Authorization": f"Bearer {cfg.api_key}"}
-    timeout_seconds = cfg.timeout_seconds
-
-    records = _fetch_remote_records(endpoint_url, auth_headers, timeout_seconds)
-    return _persist_records(dataset_id, records)
+def process_data(cfg: PipelineConfig) -> list[Record]:
+    return _fetch_data(cfg)
 
 
-def _fetch_remote_records(
-    endpoint_url: str,
-    auth_headers: dict[str, str],
-    timeout_seconds: int,
-) -> list[Record]:
+def _fetch_data(cfg: PipelineConfig) -> list[Record]:
+    # Child helper is unnecessarily coupled to the monolithic config object
+    token = cfg.auth.get_token()
     ...
 ```
 
-**Preferred:**
+**Anti-pattern 2 (Single-Use Variable Alias):**
+Parent does `token = cfg.auth.get_token()` followed by `_fetch_data(token=token)`.
 ```python
-def sync_dataset(dataset_id: str, cfg: PipelineConfig) -> SyncSummary:
-    # Caller stays clean and orchestrates high-level workflow
-    records = _fetch_remote_records(dataset_id, cfg)
-    return _persist_records(dataset_id, records)
+def process_data(cfg: PipelineConfig) -> list[Record]:
+    # Redundant temporary variable alias
+    token = cfg.auth.get_token()
+    return _fetch_data(token=token)
 
 
-def _fetch_remote_records(dataset_id: str, cfg: PipelineConfig) -> list[Record]:
-    # Child helper encapsulates its own URL construction and header derivation
-    endpoint_url = f"{cfg.base_url}/datasets/{dataset_id}/sync"
-    auth_headers = {"Authorization": f"Bearer {cfg.api_key}"}
+def _fetch_data(token: str) -> list[Record]:
+    ...
+```
+
+**Preferred (Inline Call-Site Extraction):**
+Parent calls `_fetch_data(token=cfg.auth.get_token())`, keeping `_fetch_data(token: str)` completely decoupled and trivially testable.
+```python
+def process_data(cfg: PipelineConfig) -> list[Record]:
+    # Extracted directly inline at call site without temporary variables
+    return _fetch_data(token=cfg.auth.get_token())
+
+
+def _fetch_data(token: str) -> list[Record]:
+    # Completely decoupled and trivially testable with simple primitives
     ...
 ```
 
