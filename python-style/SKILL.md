@@ -201,3 +201,10 @@ def fetch_user_profile(user_id: str, timeout_seconds: float = _DEFAULT_TIMEOUT_S
 - Favor direct `return`, `yield`, or `pass` expressions over intermediate variable aliases.
 - Reserve local variables strictly for values reused multiple times or complex intermediate computations.
 - Use list, dict, and set comprehensions for simple, clear transformations; fall back to explicit loops for complex logic.
+
+---
+
+## 9. Targeted Verification vs. Monolithic Test Suites
+
+- Fast static checks (`ruff check`, `ruff format`, `pyright`, `mypy`) and isolated, target-specific unit tests (e.g., testing a single target or file) are permitted and encouraged to catch regressions and type mismatches before handoff.
+- NEVER run full-repo monolithic test suites (e.g. `bazel test //...`) or heavy end-to-end integration suites locally; remote CI presubmits handle full regression testing.
