@@ -104,6 +104,45 @@ Organize module contents so that files read logically from top to bottom:
 - Decompose multi-step workflows into focused, private helper functions placed immediately below the caller.
 - Do not artificially fragment coherent, readable algorithms solely to satisfy line limits; balance modularity with readability.
 
+### Parameter Encapsulation & Self-Sufficient Child Methods
+- If a parent/caller function calls a child/helper function, and a parameter `Y` is only consumed by the child function and can be derived, computed, or fetched from primary parameter/config `X` (or from an already passed context object `cfg`), the parent caller **MUST NOT** derive or fetch `Y` just to pass it into the child.
+- Push data fetching, derivation, and resolution down into the child method itself so the child method remains self-sufficient and encapsulated, keeping caller orchestration clean and decoupled.
+
+**Anti-pattern:**
+```python
+def sync_dataset(dataset_id: str, cfg: PipelineConfig) -> SyncSummary:
+    # Caller unnecessarily extracts and derives parameters solely consumed by the child helper
+    endpoint_url = f"{cfg.base_url}/datasets/{dataset_id}/sync"
+    auth_headers = {"Authorization": f"Bearer {cfg.api_key}"}
+    timeout_seconds = cfg.timeout_seconds
+
+    records = _fetch_remote_records(endpoint_url, auth_headers, timeout_seconds)
+    return _persist_records(dataset_id, records)
+
+
+def _fetch_remote_records(
+    endpoint_url: str,
+    auth_headers: dict[str, str],
+    timeout_seconds: int,
+) -> list[Record]:
+    ...
+```
+
+**Preferred:**
+```python
+def sync_dataset(dataset_id: str, cfg: PipelineConfig) -> SyncSummary:
+    # Caller stays clean and orchestrates high-level workflow
+    records = _fetch_remote_records(dataset_id, cfg)
+    return _persist_records(dataset_id, records)
+
+
+def _fetch_remote_records(dataset_id: str, cfg: PipelineConfig) -> list[Record]:
+    # Child helper encapsulates its own URL construction and header derivation
+    endpoint_url = f"{cfg.base_url}/datasets/{dataset_id}/sync"
+    auth_headers = {"Authorization": f"Bearer {cfg.api_key}"}
+    ...
+```
+
 ---
 
 ## 6. Error Visibility & Custom Exceptions
