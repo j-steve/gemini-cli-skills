@@ -104,9 +104,9 @@ Organize module contents so that files read logically from top to bottom:
 - Decompose multi-step workflows into focused, private helper functions placed immediately below the caller.
 - Do not artificially fragment coherent, readable algorithms solely to satisfy line limits; balance modularity with readability.
 
-### Parameter Encapsulation & Self-Sufficient Child Methods
-- If a parent/caller function calls a child/helper function, and a parameter `Y` is only consumed by the child function and can be derived, computed, or fetched from primary parameter/config `X` (or from an already passed context object `cfg`), the parent caller **MUST NOT** derive or fetch `Y` just to pass it into the child.
-- Push data fetching, derivation, and resolution down into the child method itself so the child method remains self-sufficient and encapsulated, keeping caller orchestration clean and decoupled.
+### Data Encapsulation & Callee Self-Sufficiency
+- Prefer having helper and child functions derive or fetch their own internal dependencies directly from the primary configuration or context object (e.g., `cfg`), rather than having caller functions orchestrate intermediate data fetches solely to pass them down as discrete arguments.
+- Pushing data retrieval down into the callee keeps caller orchestration concise and decoupled, and narrows function signatures to only essential domain parameters unless explicit separation of concerns or testability dictates otherwise.
 
 **Anti-pattern:**
 ```python
